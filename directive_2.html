@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<body ng-app="myApp">
+
+    <div class="row">  
+        <div class="col-md-3">  
+            <superman strength>superman---strength</superman>  
+        </div>  
+    </div>  
+    <div class="row">  
+        <div class="col-md-3">  
+            <superman strength speed>superman---strength+speed</superman>  
+        </div>  
+    </div>  
+    <div class="row">  
+        <div class="col-md-3">  
+            <superman strength speed light>superman---strength+speed+light</superman>  
+        </div>  
+    </div>  
+
+
+
+<script>
+    var myModule = angular.module("MyModule", []);  
+    myModule.directive("superman", function() {  
+        return {  
+            scope: {},  
+            restrict: 'AE',  
+            controller: function($scope) {  
+                $scope.abilities = [];  
+                this.addStrength = function() {  
+                    $scope.abilities.push("strength");  
+                };  
+                this.addSpeed = function() {  
+                    $scope.abilities.push("speed");  
+                };  
+                this.addLight = function() {  
+                    $scope.abilities.push("light");  
+                };  
+            },  
+            link: function(scope, element, attrs) {  
+                element.addClass('btn btn-primary');  
+                element.bind("mouseenter", function() {  
+                    console.log(scope.abilities);  
+                });  
+            }  
+        }  
+    });  
+    myModule.directive("strength", function() {  
+        return {  
+            require: '^superman',  
+            link: function(scope, element, attrs, supermanCtrl) {  
+                supermanCtrl.addStrength();  
+            }  
+        }  
+    });  
+    myModule.directive("speed", function() {  
+        return {  
+            require: '^superman',  
+            link: function(scope, element, attrs, supermanCtrl) {  
+                supermanCtrl.addSpeed();  
+            }  
+        }  
+    });  
+    myModule.directive("light", function() {  
+        return {  
+            require: '^superman',  
+            link: function(scope, element, attrs, supermanCtrl) {  
+                supermanCtrl.addLight();  
+            }  
+        }  
+    });  
+</script>
+
+</body>
+
+</html>

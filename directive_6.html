@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+
+<body ng-app="app">
+
+<custom-directive></custom-directive>
+
+
+
+<script>
+var app = angular.module('app',[]);
+    
+app.directive('customDirective', customDirective);
+
+function customDirective() {
+    var directive = {
+        restrict: 'EA',
+        template: '<child-directive><child-directive>',
+        controller: function($scope, $element) {
+            $element.find('span').text('hello cnblogs!');
+        }
+    };
+
+    return directive;
+}
+app.directive("childDirective",childDirective);
+
+function childDirective() {
+    var directive = {
+        restrict: 'EA',
+        template: '<h1>hello xpy0928</h1>',
+        replace: true,
+        link: function($scope, $element, attr) {
+            
+            $element.replaceWith(angular.element('<span>' + $element.text() + '</span>'));
+        }
+    }
+    return directive;
+}
+</script>
+
+</body>
+
+</html>
